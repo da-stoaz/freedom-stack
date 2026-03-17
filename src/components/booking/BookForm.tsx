@@ -3,12 +3,14 @@
 import { type FormEvent, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
+import { SectionHeader } from '@/components/ui/SectionHeader'
 import { Select } from '@/components/ui/Select'
 import type { BrandSettingsRecord, ServiceRecord, TimeSlotRecord } from '@/lib/types'
-import { formatCurrency, formatShortDate, formatTimeRange } from '@/lib/utils'
+import { formatCurrency, formatTimeRange } from '@/lib/utils'
 
 type Props = {
   availableDates: string[]
@@ -125,11 +127,11 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
   }
 
   return (
-    <form onSubmit={submit} className="two-column-grid">
-      <div className="stack-lg">
+    <form onSubmit={submit} className="mt-10 grid gap-8 lg:grid-cols-[1.6fr,1fr]">
+      <div className="space-y-6">
         <Card>
-          <h3>1. Service</h3>
-          <div className="stack-sm">
+          <h3 className="text-lg font-semibold">1. Service</h3>
+          <div className="mt-4 space-y-3">
             <Select value={form.service_id} onChange={(event) => setField('service_id', event.target.value)}>
               <option value="">Select a service</option>
               {services.map((service) => (
@@ -139,8 +141,8 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
               ))}
             </Select>
             {selectedService ? (
-              <div className="inline-meta">
-                <span className="badge">{selectedService.duration_minutes} min</span>
+              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                <Badge>{selectedService.duration_minutes} min</Badge>
                 <span>{formatCurrency(selectedService.price)}</span>
               </div>
             ) : null}
@@ -148,50 +150,63 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
         </Card>
 
         <Card>
-          <h3>2. Date</h3>
-          <div className="date-grid">
+          <h3 className="text-lg font-semibold">2. Date</h3>
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {availableDates.map((date) => (
               <button
                 key={date}
                 type="button"
                 onClick={() => setSelectedDate(date)}
-                className={selectedDate === date ? 'pill is-active' : 'pill'}
+                className={`rounded-xl border px-3 py-2 text-sm transition ${
+                  selectedDate === date
+                    ? 'border-brand-primary bg-brand-secondary text-slate-900 dark:border-brand-primary dark:bg-slate-800 dark:text-white'
+                    : 'border-slate-300 hover:border-brand-primary dark:border-slate-700'
+                }`}
               >
-                {formatShortDate(date)}
+                {new Date(date).toLocaleDateString()}
               </button>
             ))}
           </div>
         </Card>
 
         <Card>
-          <h3>3. Time slot</h3>
-          {isLoadingSlots ? <p className="muted">Loading available slots...</p> : null}
-          {!isLoadingSlots && slots.length === 0 ? <p className="muted">No slots for this date yet.</p> : null}
-          <div className="date-grid">
-            {slots.map((slot) => (
-              <button
-                key={slot.id}
-                type="button"
-                onClick={() => setField('time_slot_id', slot.id)}
-                className={form.time_slot_id === slot.id ? 'pill is-active' : 'pill'}
-              >
-                {formatTimeRange(slot.starts_at, slot.ends_at)}
-              </button>
-            ))}
+          <h3 className="text-lg font-semibold">3. Time Slot</h3>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {isLoadingSlots ? (
+              <p className="text-sm text-slate-600 dark:text-slate-300">Loading available slots...</p>
+            ) : null}
+            {!isLoadingSlots && slots.length === 0 ? (
+              <p className="text-sm text-slate-600 dark:text-slate-300">No slots for this date yet.</p>
+            ) : (
+              slots.map((slot) => (
+                <button
+                  key={slot.id}
+                  type="button"
+                  onClick={() => setField('time_slot_id', slot.id)}
+                  className={`rounded-full border px-4 py-2 text-sm transition ${
+                    form.time_slot_id === slot.id
+                      ? 'border-brand-primary bg-brand-primary text-white'
+                      : 'border-slate-300 hover:border-brand-primary dark:border-slate-700'
+                  }`}
+                >
+                  {formatTimeRange(slot.starts_at, slot.ends_at)}
+                </button>
+              ))
+            )}
           </div>
-          {errors.time_slot_id ? <p className="error-text">{errors.time_slot_id}</p> : null}
+          {errors.time_slot_id ? <p className="mt-2 text-sm text-rose-600">{errors.time_slot_id}</p> : null}
         </Card>
 
         <Card>
-          <h3>4. Patient details</h3>
-          <div className="stack-sm">
+          <h3 className="text-lg font-semibold">4. Patient details</h3>
+          <div className="mt-4 grid gap-4">
             <div>
               <Input
                 placeholder="Full name *"
                 value={form.patient_name}
                 onChange={(event) => setField('patient_name', event.target.value)}
               />
-              {errors.patient_name ? <p className="error-text">{errors.patient_name}</p> : null}
+              {errors.patient_name ? <p className="mt-1 text-sm text-rose-600">{errors.patient_name}</p> : null}
             </div>
 
             <div>
@@ -201,7 +216,7 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
                 value={form.patient_email}
                 onChange={(event) => setField('patient_email', event.target.value)}
               />
-              {errors.patient_email ? <p className="error-text">{errors.patient_email}</p> : null}
+              {errors.patient_email ? <p className="mt-1 text-sm text-rose-600">{errors.patient_email}</p> : null}
             </div>
 
             <Input
@@ -211,7 +226,7 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
             />
 
             <textarea
-              className="input textarea"
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               rows={4}
               placeholder="Notes (optional)"
               value={form.notes}
@@ -222,14 +237,14 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
       </div>
 
       <div>
-        <Card className="sticky-card">
-          <h3>Summary</h3>
-          <div className="stack-xs">
+        <Card className="sticky top-24">
+          <h3 className="text-lg font-semibold">Summary</h3>
+          <div className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-200">
             <p>
               <strong>Service:</strong> {selectedService?.name ?? 'Not selected'}
             </p>
             <p>
-              <strong>Date:</strong> {selectedDate ? formatShortDate(selectedDate) : 'Not selected'}
+              <strong>Date:</strong> {selectedDate ? new Date(selectedDate).toLocaleDateString() : 'Not selected'}
             </p>
             <p>
               <strong>Time:</strong>{' '}
@@ -240,9 +255,9 @@ export function BookForm({ availableDates, brand, preselectedServiceId, services
             </p>
           </div>
 
-          {submitError ? <p className="error-box">{submitError}</p> : null}
+          {submitError ? <p className="mt-4 text-sm text-rose-600">{submitError}</p> : null}
 
-          <Button type="submit" variant="accent" fullWidth disabled={!canSubmit || isSubmitting}>
+          <Button type="submit" variant="accent" fullWidth className="mt-6" disabled={!canSubmit || isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit booking'}
           </Button>
         </Card>

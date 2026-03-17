@@ -3,11 +3,20 @@ import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { defaultBrandSettings } from '@/lib/default-brand'
 
+const formatDate = (value: Date) => {
+  const year = value.getFullYear()
+  const month = String(value.getMonth() + 1).padStart(2, '0')
+  const day = String(value.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
 async function main() {
   const config = await configPromise
   const payload = await getPayload({ config })
 
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@primacura.at'
+  const emailDomain = defaultBrandSettings.email.split('@')[1] || 'primacura.at'
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || `admin@${emailDomain}`
   const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'password'
 
   const existingAdmins = await payload.find({
@@ -173,11 +182,18 @@ async function main() {
         continue
       }
 
-      const dateString = date.toISOString().slice(0, 10)
+      const dateString = formatDate(date)
 
       for (const starts_at of slotTimes) {
         const [hours, minutes] = starts_at.split(':')
-        const endsAtDate = new Date(`${dateString}T${hours}:${minutes}:00`)
+        const endsAtDate = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          Number(hours),
+          Number(minutes),
+          0,
+        )
         endsAtDate.setHours(endsAtDate.getHours() + 1)
 
         await payload.create({

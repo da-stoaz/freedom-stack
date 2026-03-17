@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { getButtonClassName } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { formatCurrency, formatShortDate } from '@/lib/utils'
 
@@ -16,15 +17,19 @@ export default async function BookingConfirmedPage({ searchParams }: Props) {
   const summary = await searchParams
 
   return (
-    <section className="section">
-      <div className="container container--narrow">
-        <Card className="card--centered">
-          <div className="confirmation-mark">OK</div>
-          <h1>Your booking request is in</h1>
-          <p className="muted">A confirmation email has been sent with your appointment details.</p>
+    <section className="mx-auto max-w-2xl px-6 py-24">
+      <div>
+        <Card className="text-center">
+          <div className="mx-auto flex h-20 w-20 animate-pulse items-center justify-center rounded-full bg-brand-secondary text-2xl font-bold text-brand-primary dark:bg-slate-800">
+            OK
+          </div>
+          <h1 className="mt-6 text-3xl font-semibold">Your booking request is in</h1>
+          <p className="mt-3 text-slate-600 dark:text-slate-300">
+            A confirmation email has been sent with your appointment details.
+          </p>
 
           {summary.service ? (
-            <div className="summary-box">
+            <div className="mt-6 rounded-2xl border border-slate-200 p-4 text-left text-sm dark:border-slate-700">
               <p>
                 <strong>Service:</strong> {summary.service}
               </p>
@@ -40,8 +45,8 @@ export default async function BookingConfirmedPage({ searchParams }: Props) {
             </div>
           ) : null}
 
-          <div className="cta-row">
-            <Link href="/" className="button-link button-link--primary">
+          <div className="mt-8">
+            <Link href="/" className={getButtonClassName({ variant: 'primary' })}>
               Return home
             </Link>
           </div>
@@ -50,4 +55,3 @@ export default async function BookingConfirmedPage({ searchParams }: Props) {
     </section>
   )
 }
-

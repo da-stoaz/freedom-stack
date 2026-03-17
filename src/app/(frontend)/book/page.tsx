@@ -17,8 +17,8 @@ export default async function BookPage({ searchParams }: Props) {
   ])
 
   return (
-    <section className="section">
-      <div className="container">
+    <section className="mx-auto max-w-6xl px-6 py-20">
+      <div>
         <SectionHeader
           eyebrow="Book"
           title="Book your appointment"
@@ -34,4 +34,3 @@ export default async function BookPage({ searchParams }: Props) {
     </section>
   )
 }
-

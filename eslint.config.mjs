@@ -11,7 +11,7 @@ const compat = new FlatCompat({
 
 const config = [
   {
-    ignores: ['src/payload-types.ts'],
+    ignores: ['.next/**', 'src/payload-types.ts'],
   },
   ...compat.extends('next/core-web-vitals'),
 ]
