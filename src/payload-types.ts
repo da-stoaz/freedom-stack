@@ -225,6 +225,8 @@ export interface Testimonial {
   updated_at?: string | null;
 }
 /**
+ * New bookings start as Needs confirmation. Open a booking and change the booking status to Confirmed or Cancelled once handled.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "bookings".
  */
@@ -236,6 +238,9 @@ export interface Booking {
   patient_email: string;
   patient_phone?: string | null;
   notes?: string | null;
+  /**
+   * Every new booking starts as Needs confirmation. Switch this to Confirmed or Cancelled after reviewing it.
+   */
   status: 'pending' | 'confirmed' | 'cancelled';
   confirmation_token: string;
   created_at?: string | null;

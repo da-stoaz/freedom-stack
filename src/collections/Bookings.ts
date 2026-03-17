@@ -8,10 +8,16 @@ export const Bookings: CollectionConfig = {
   slug: 'bookings',
   dbName: 'bookings',
   timestamps: false,
+  defaultSort: '-created_at',
   admin: {
     group: 'Clinic',
     useAsTitle: 'patient_name',
-    defaultColumns: ['patient_name', 'service_id', 'time_slot_id', 'status', 'created_at'],
+    description:
+      'New bookings start as Needs confirmation. Open a booking and change the booking status to Confirmed or Cancelled once handled.',
+    defaultColumns: ['status', 'patient_name', 'patient_email', 'service_id', 'time_slot_id', 'created_at'],
+    components: {
+      beforeList: ['@/components/admin/BookingQueueNotice#BookingQueueNotice'],
+    },
   },
   access: {
     read: adminsOnly,
@@ -65,12 +71,21 @@ export const Bookings: CollectionConfig = {
     },
     {
       name: 'status',
+      label: 'Booking status',
       type: 'select',
       required: true,
       defaultValue: 'pending',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Every new booking starts as Needs confirmation. Switch this to Confirmed or Cancelled after reviewing it.',
+        components: {
+          Cell: '@/components/admin/BookingStatusCell#BookingStatusCell',
+        },
+      },
       options: [
         {
-          label: 'Pending',
+          label: 'Needs confirmation',
           value: 'pending',
         },
         {
