@@ -1,7 +1,49 @@
-:root {
-  --theme-elevation-0: #f6faf8;
-  --theme-elevation-50: #edf5f1;
+:root,
+html[data-theme='light'],
+html[data-theme='dark'] {
+  --theme-bg: #f6faf8;
+  --theme-input-bg: #ffffff;
+  --theme-text: #14211d;
+  --theme-border-color: #d6e1dc;
+
+  --theme-elevation-0: #ffffff;
+  --theme-elevation-50: #f6faf8;
+  --theme-elevation-100: #eef4f1;
+  --theme-elevation-150: #dbe6e1;
+  --theme-elevation-200: #c8d5cf;
+  --theme-elevation-250: #aebeb7;
+  --theme-elevation-300: #91a59d;
+  --theme-elevation-350: #738a81;
+  --theme-elevation-400: #5d736b;
+  --theme-elevation-450: #4c5f58;
+  --theme-elevation-500: #41514b;
+  --theme-elevation-550: #384740;
+  --theme-elevation-600: #2e3b35;
+  --theme-elevation-650: #27312d;
+  --theme-elevation-700: #1f2824;
+  --theme-elevation-750: #19211d;
+  --theme-elevation-800: #14211d;
+  --theme-elevation-850: #0f1a17;
+  --theme-elevation-900: #0c1512;
+  --theme-elevation-950: #09100d;
+  --theme-elevation-1000: #050807;
+
+  --theme-success-50: #edf6f2;
+  --theme-success-100: #dcece6;
+  --theme-success-200: #bad8cd;
+  --theme-success-300: #87b7a8;
+  --theme-success-400: #4d8a78;
   --theme-success-500: #2a6b5e;
+  --theme-success-600: #23594e;
+  --theme-success-700: #1d4a40;
+  --theme-success-800: #173931;
+  --theme-success-900: #112821;
+  --theme-success-950: #091713;
+}
+
+body {
+  background: var(--theme-bg);
+  color: var(--theme-text);
 }
 
 .payload__header {
@@ -12,3 +54,41 @@
   font-weight: 700;
 }
 
+.template-default,
+.template-minimal,
+.template-minimal__wrap,
+.collection-edit,
+.auth-fields {
+  color: var(--theme-text);
+}
+
+.template-default .btn--style-primary,
+.template-minimal .btn--style-primary {
+  --bg-color: var(--theme-success-500);
+  --hover-bg: var(--theme-success-600);
+  --color: #ffffff;
+}
+
+.template-default .btn--style-primary.btn--disabled,
+.template-minimal .btn--style-primary.btn--disabled {
+  --bg-color: #dfe6e2;
+  --color: #5d736b;
+}
+
+.template-default input,
+.template-default textarea,
+.template-default select,
+.template-minimal input,
+.template-minimal textarea,
+.template-minimal select {
+  color: var(--theme-text);
+}
+
+.template-default .field-label,
+.template-minimal .field-label,
+.template-default h1,
+.template-minimal h1,
+.template-default p,
+.template-minimal p {
+  color: var(--theme-text);
+}

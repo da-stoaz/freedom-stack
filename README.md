@@ -41,17 +41,17 @@ TypeScript rebuild of the `french-stack` physiotherapy booking platform using:
 pnpm install
 ```
 
-5. Generate Payload artifacts if needed
+5. Bootstrap the local database and seed baseline CMS content
+
+```bash
+pnpm setup
+```
+
+6. Generate Payload artifacts if needed
 
 ```bash
 pnpm generate:importmap
 pnpm generate:types
-```
-
-6. Seed the database
-
-```bash
-pnpm seed
 ```
 
 7. Start the app
@@ -65,4 +65,4 @@ pnpm dev
 - The project intentionally keeps the Laravel **domain model** and booking flow, but the admin/auth layer is now Payload-native.
 - The booking flow uses direct PostgreSQL transactions for correctness under concurrent booking attempts.
 - `PAYLOAD_SECRET` falls back to a local development value so builds work in a fresh environment, but production must override it.
-
+- `pnpm setup` starts PostgreSQL on `127.0.0.1:5552` and runs the seed script that creates the first admin plus baseline services, testimonials, brand settings, and time slots.
