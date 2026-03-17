@@ -53,6 +53,8 @@ export async function POST(request: Request) {
       )
     }
 
+    console.error('Booking submission failed:', error)
+
     return NextResponse.json(
       {
         message: 'Something went wrong while submitting your booking.',
@@ -61,4 +63,3 @@ export async function POST(request: Request) {
     )
   }
 }
-

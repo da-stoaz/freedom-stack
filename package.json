@@ -8,13 +8,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "setup": "pnpm db:up && pnpm seed",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
     "payload": "payload",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
-    "seed": "tsx src/scripts/seed.ts",
+    "seed": "docker compose up -d postgres && tsx src/scripts/seed.ts",
     "postinstall": "payload generate:importmap && payload generate:types"
   },
   "dependencies": {

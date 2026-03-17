@@ -108,8 +108,8 @@ export async function createBooking(rawInput: unknown): Promise<{
       `
         insert into bookings (
           id,
-          service_id,
-          time_slot_id,
+          service_id_id,
+          time_slot_id_id,
           patient_name,
           patient_email,
           patient_phone,

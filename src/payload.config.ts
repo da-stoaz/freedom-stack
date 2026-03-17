@@ -2,6 +2,15 @@ import path from 'node:path'
 import sharp from 'sharp'
 import { fileURLToPath } from 'node:url'
 
+try {
+  process.loadEnvFile?.('.env')
+} catch (error) {
+  const envError = error as NodeJS.ErrnoException
+  if (envError.code !== 'ENOENT') {
+    throw error
+  }
+}
+
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'

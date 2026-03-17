@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from 'next/cache'
+
 import { defaultBrandSettings } from './default-brand'
 import { getPayloadClient } from './get-payload'
 import type {
@@ -12,6 +14,7 @@ const coerceOptionalString = (value: unknown) => (typeof value === 'string' ? va
 const coerceString = (value: unknown, fallback: string) => (typeof value === 'string' ? value : fallback)
 
 export async function getBrandSettings(): Promise<BrandSettingsRecord> {
+  noStore()
   const payload = await getPayloadClient()
   const global = await payload.findGlobal({
     slug: 'brand-settings',
@@ -38,6 +41,7 @@ export async function getBrandSettings(): Promise<BrandSettingsRecord> {
 }
 
 export async function getPublicServices(limit?: number): Promise<ServiceRecord[]> {
+  noStore()
   const payload = await getPayloadClient()
   const result = await payload.find({
     collection: 'services',
@@ -63,6 +67,7 @@ export async function getPublicServices(limit?: number): Promise<ServiceRecord[]
 }
 
 export async function getVisibleTestimonials(): Promise<TestimonialRecord[]> {
+  noStore()
   const payload = await getPayloadClient()
   const result = await payload.find({
     collection: 'testimonials',
@@ -87,6 +92,7 @@ export async function getVisibleTestimonials(): Promise<TestimonialRecord[]> {
 }
 
 export async function getAvailableDates(): Promise<string[]> {
+  noStore()
   const payload = await getPayloadClient()
   const today = new Date().toISOString().slice(0, 10)
   const result = await payload.find({
@@ -114,6 +120,7 @@ export async function getAvailableDates(): Promise<string[]> {
 }
 
 export async function getAvailableSlotsByDate(date: string): Promise<TimeSlotRecord[]> {
+  noStore()
   const payload = await getPayloadClient()
   const result = await payload.find({
     collection: 'time-slots',

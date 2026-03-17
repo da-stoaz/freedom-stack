@@ -1,3 +1,5 @@
+process.loadEnvFile?.('.env')
+
 import { getPayload } from 'payload'
 
 import configPromise from '@/payload.config'
@@ -15,86 +17,91 @@ async function main() {
   const config = await configPromise
   const payload = await getPayload({ config })
 
-  const emailDomain = defaultBrandSettings.email.split('@')[1] || 'primacura.at'
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || `admin@${emailDomain}`
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'password'
+  try {
+    const emailDomain = defaultBrandSettings.email.split('@')[1] || 'primacura.at'
+    const adminEmail = process.env.SEED_ADMIN_EMAIL || `admin@${emailDomain}`
+    const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'password'
 
-  const existingAdmins = await payload.find({
-    collection: 'admins',
-    where: {
-      email: {
-        equals: adminEmail,
-      },
-    },
-    limit: 1,
-    overrideAccess: true,
-  })
-
-  if (existingAdmins.docs.length === 0) {
-    await payload.create({
+    const existingAdmins = await payload.find({
       collection: 'admins',
-      overrideAccess: true,
-      data: {
-        email: adminEmail,
-        password: adminPassword,
-        name: `${defaultBrandSettings.name} Admin`,
-        is_admin: true,
+      where: {
+        email: {
+          equals: adminEmail,
+        },
       },
+      limit: 1,
+      overrideAccess: true,
     })
-  }
 
-  await payload.updateGlobal({
-    slug: 'brand-settings',
-    overrideAccess: true,
-    data: defaultBrandSettings,
-  })
+    if (existingAdmins.docs.length === 0) {
+      await payload.create({
+        collection: 'admins',
+        overrideAccess: true,
+        data: {
+          email: adminEmail,
+          password: adminPassword,
+          name: `${defaultBrandSettings.name} Admin`,
+          is_admin: true,
+        },
+      })
+    }
 
-  const services = [
-    {
-      name: 'Initial Assessment',
-      description: 'Comprehensive first consultation with movement screening and a tailored treatment plan.',
-      duration_minutes: 60,
-      price: 95,
-      sort_order: 1,
-    },
-    {
-      name: 'Sports Massage',
-      description: 'Deep tissue and recovery-focused massage for athletic performance and injury prevention.',
-      duration_minutes: 45,
-      price: 80,
-      sort_order: 2,
-    },
-    {
-      name: 'Manual Therapy',
-      description: 'Hands-on mobilisation techniques to restore range of motion and reduce pain.',
-      duration_minutes: 45,
-      price: 85,
-      sort_order: 3,
-    },
-    {
-      name: 'Dry Needling',
-      description: 'Targeted trigger-point therapy to release muscle tension and improve function.',
-      duration_minutes: 30,
-      price: 70,
-      sort_order: 4,
-    },
-    {
-      name: 'Posture Analysis',
-      description: 'Detailed postural and ergonomic assessment with practical correction guidance.',
-      duration_minutes: 40,
-      price: 75,
-      sort_order: 5,
-    },
-  ]
+    await payload.updateGlobal({
+      slug: 'brand-settings',
+      overrideAccess: true,
+      data: defaultBrandSettings,
+    })
 
-  const existingServices = await payload.find({
-    collection: 'services',
-    limit: 1,
-    overrideAccess: true,
-  })
+    const services = [
+      {
+        name: 'Initial Assessment',
+        description: 'Comprehensive first consultation with movement screening and a tailored treatment plan.',
+        duration_minutes: 60,
+        price: 95,
+        sort_order: 1,
+      },
+      {
+        name: 'Sports Massage',
+        description: 'Deep tissue and recovery-focused massage for athletic performance and injury prevention.',
+        duration_minutes: 45,
+        price: 80,
+        sort_order: 2,
+      },
+      {
+        name: 'Manual Therapy',
+        description: 'Hands-on mobilisation techniques to restore range of motion and reduce pain.',
+        duration_minutes: 45,
+        price: 85,
+        sort_order: 3,
+      },
+      {
+        name: 'Dry Needling',
+        description: 'Targeted trigger-point therapy to release muscle tension and improve function.',
+        duration_minutes: 30,
+        price: 70,
+        sort_order: 4,
+      },
+      {
+        name: 'Posture Analysis',
+        description: 'Detailed postural and ergonomic assessment with practical correction guidance.',
+        duration_minutes: 40,
+        price: 75,
+        sort_order: 5,
+      },
+    ]
 
-  if (existingServices.docs.length === 0) {
+    const existingServices = await payload.find({
+      collection: 'services',
+      limit: 100,
+      overrideAccess: true,
+    })
+    const existingServiceNames = new Set(existingServices.docs.map((service) => String(service.name)))
+
     for (const service of services) {
+      if (existingServiceNames.has(service.name)) {
+        continue
+      }
+
       await payload.create({
         collection: 'services',
         overrideAccess: true,
@@ -104,15 +111,14 @@ async function main() {
         },
       })
     }
-  }
 
-  const existingTestimonials = await payload.find({
-    collection: 'testimonials',
-    limit: 1,
-    overrideAccess: true,
-  })
+    const existingTestimonials = await payload.find({
+      collection: 'testimonials',
+      limit: 100,
+      overrideAccess: true,
+    })
+    const existingTestimonialAuthors = new Set(existingTestimonials.docs.map((item) => String(item.author_name)))
 
-  if (existingTestimonials.docs.length === 0) {
     const testimonials = [
       {
         author_name: 'Sophie K.',
@@ -153,6 +159,10 @@ async function main() {
     ]
 
     for (const testimonial of testimonials) {
+      if (existingTestimonialAuthors.has(testimonial.author_name)) {
+        continue
+      }
+
       await payload.create({
         collection: 'testimonials',
         overrideAccess: true,
@@ -162,15 +172,16 @@ async function main() {
         },
       })
     }
-  }
 
-  const existingSlots = await payload.find({
-    collection: 'time-slots',
-    limit: 1,
-    overrideAccess: true,
-  })
+    const existingSlots = await payload.find({
+      collection: 'time-slots',
+      limit: 500,
+      overrideAccess: true,
+    })
+    const existingSlotKeys = new Set(
+      existingSlots.docs.map((slot) => `${String(slot.date)}::${String(slot.starts_at)}`),
+    )
 
-  if (existingSlots.docs.length === 0) {
     const slotTimes = ['09:00:00', '10:00:00', '11:00:00', '14:00:00', '15:00:00', '16:00:00']
 
     for (let i = 0; i < 30; i += 1) {
@@ -185,6 +196,11 @@ async function main() {
       const dateString = formatDate(date)
 
       for (const starts_at of slotTimes) {
+        const slotKey = `${dateString}::${starts_at}`
+        if (existingSlotKeys.has(slotKey)) {
+          continue
+        }
+
         const [hours, minutes] = starts_at.split(':')
         const endsAtDate = new Date(
           date.getFullYear(),
@@ -208,9 +224,18 @@ async function main() {
         })
       }
     }
-  }
 
-  console.log('Seed complete.')
+    console.log('Seed complete.')
+  } finally {
+    await payload.destroy()
+  }
 }
 
 void main()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
