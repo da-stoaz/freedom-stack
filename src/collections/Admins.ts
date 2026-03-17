@@ -1,12 +1,33 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, PayloadRequest } from 'payload'
 
 import { adminsOnly } from '@/lib/access'
+
+type ForceAdminUserArgs = {
+  data?: Record<string, unknown>
+  operation: 'create' | 'update'
+  req: PayloadRequest
+}
+
+const forceAdminUser = async ({
+  data,
+  operation,
+  req,
+}: ForceAdminUserArgs) => {
+  if (operation !== 'create' && operation !== 'update') {
+    return data
+  }
+
+  return {
+    ...(data ?? {}),
+    is_admin: true,
+  }
+}
 
 export const Admins: CollectionConfig = {
   slug: 'admins',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'is_admin'],
+    defaultColumns: ['email', 'name'],
   },
   auth: true,
   access: {
@@ -14,6 +35,9 @@ export const Admins: CollectionConfig = {
     create: adminsOnly,
     update: adminsOnly,
     delete: adminsOnly,
+  },
+  hooks: {
+    beforeValidate: [forceAdminUser],
   },
   fields: [
     {
@@ -26,7 +50,10 @@ export const Admins: CollectionConfig = {
       type: 'checkbox',
       defaultValue: true,
       required: true,
+      admin: {
+        hidden: true,
+        disableListColumn: true,
+      },
     },
   ],
 }
-
