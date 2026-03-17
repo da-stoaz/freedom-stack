@@ -20,8 +20,19 @@ export default async function BookingConfirmedPage({ searchParams }: Props) {
     <section className="mx-auto max-w-2xl px-6 py-24">
       <div>
         <Card className="text-center">
-          <div className="mx-auto flex h-20 w-20 animate-pulse items-center justify-center rounded-full bg-brand-secondary text-2xl font-bold text-brand-primary dark:bg-slate-800">
-            OK
+          <div className="mx-auto flex h-20 w-20 animate-pulse items-center justify-center rounded-full bg-brand-secondary text-brand-primary dark:bg-slate-800">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-10 w-10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 13l4 4L19 7" />
+            </svg>
           </div>
           <h1 className="mt-6 text-3xl font-semibold">Your booking request is in</h1>
           <p className="mt-3 text-slate-600 dark:text-slate-300">
