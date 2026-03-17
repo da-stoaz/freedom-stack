@@ -1,0 +1,14 @@
+:root {
+  --theme-elevation-0: #f6faf8;
+  --theme-elevation-50: #edf5f1;
+  --theme-success-500: #2a6b5e;
+}
+
+.payload__header {
+  border-bottom: 1px solid rgba(42, 107, 94, 0.12);
+}
+
+.nav__brand {
+  font-weight: 700;
+}
+

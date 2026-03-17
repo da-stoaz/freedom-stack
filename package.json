@@ -1,0 +1,44 @@
+{
+  "name": "freedom-stack",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "seed": "tsx src/scripts/seed.ts",
+    "postinstall": "payload generate:importmap && payload generate:types"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.72.0",
+    "@payloadcms/next": "3.72.0",
+    "@payloadcms/richtext-lexical": "3.72.0",
+    "@payloadcms/ui": "3.72.0",
+    "graphql": "^16.8.1",
+    "next": "^15.0.0",
+    "nodemailer": "^6.10.0",
+    "payload": "3.72.0",
+    "pg": "^8.13.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.33.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.10.5",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "^8.15.5",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
