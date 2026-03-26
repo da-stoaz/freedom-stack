@@ -225,7 +225,7 @@ export interface Testimonial {
   updated_at?: string | null;
 }
 /**
- * New bookings start as Needs confirmation. Open a booking and change the booking status to Confirmed or Cancelled once handled.
+ * Review incoming requests, confirm or cancel them from the list, or open the full booking details.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "bookings".

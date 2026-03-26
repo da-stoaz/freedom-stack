@@ -25,6 +25,7 @@ import { BrandSettings } from './globals/BrandSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const poolMax = Number(process.env.DATABASE_POOL_MAX || '2')
 
 export default buildConfig({
   admin: {
@@ -43,6 +44,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+      max: Number.isFinite(poolMax) && poolMax > 0 ? poolMax : 2,
+      idleTimeoutMillis: 10_000,
     },
   }),
   sharp,
