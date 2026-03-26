@@ -18,7 +18,7 @@
     "generate:types": "pnpm exec payload generate:types",
     "generate:importmap": "pnpm exec payload generate:importmap",
     "payload:sync": "pnpm exec payload generate:importmap && pnpm exec payload generate:types",
-    "seed": "docker compose up -d postgres && tsx src/scripts/seed.ts",
+    "seed": "tsx src/scripts/seed.ts",
     "postinstall": "echo 'Skipping Payload codegen during install; run pnpm payload:sync when schema/admin components change.'"
   },
   "dependencies": {
