@@ -1,6 +1,5 @@
 :root,
-html[data-theme='light'],
-html[data-theme='dark'] {
+html[data-theme='light'] {
   --theme-bg: #f6faf8;
   --theme-input-bg: #ffffff;
   --theme-text: #14211d;
@@ -41,6 +40,47 @@ html[data-theme='dark'] {
   --theme-success-950: #091713;
 }
 
+html[data-theme='dark'] {
+  --theme-bg: #0d1512;
+  --theme-input-bg: #13201b;
+  --theme-text: #edf6f2;
+  --theme-border-color: #273a33;
+
+  --theme-elevation-0: #13201b;
+  --theme-elevation-50: #162620;
+  --theme-elevation-100: #1b2d26;
+  --theme-elevation-150: #22362f;
+  --theme-elevation-200: #294039;
+  --theme-elevation-250: #325048;
+  --theme-elevation-300: #46655c;
+  --theme-elevation-350: #5c7c72;
+  --theme-elevation-400: #7c998f;
+  --theme-elevation-450: #95aea5;
+  --theme-elevation-500: #adc1ba;
+  --theme-elevation-550: #c5d5cf;
+  --theme-elevation-600: #d3e0db;
+  --theme-elevation-650: #dde8e4;
+  --theme-elevation-700: #e6efeb;
+  --theme-elevation-750: #edf4f1;
+  --theme-elevation-800: #f3f8f6;
+  --theme-elevation-850: #f7fbf9;
+  --theme-elevation-900: #fbfdfc;
+  --theme-elevation-950: #fdfefe;
+  --theme-elevation-1000: #ffffff;
+
+  --theme-success-50: #0d1915;
+  --theme-success-100: #11211b;
+  --theme-success-200: #173028;
+  --theme-success-300: #204639;
+  --theme-success-400: #2b6653;
+  --theme-success-500: #3b8c72;
+  --theme-success-600: #57a88d;
+  --theme-success-700: #7ec1a9;
+  --theme-success-800: #a8d7c7;
+  --theme-success-900: #d0ebe1;
+  --theme-success-950: #ebf8f3;
+}
+
 body {
   background: var(--theme-bg);
   color: var(--theme-text);
@@ -48,6 +88,10 @@ body {
 
 .payload__header {
   border-bottom: 1px solid rgba(42, 107, 94, 0.12);
+}
+
+html[data-theme='dark'] .payload__header {
+  border-bottom-color: rgba(126, 193, 169, 0.18);
 }
 
 .nav__brand {
@@ -75,12 +119,20 @@ body {
   --color: #5d736b;
 }
 
+html[data-theme='dark'] .template-default .btn--style-primary.btn--disabled,
+html[data-theme='dark'] .template-minimal .btn--style-primary.btn--disabled {
+  --bg-color: #22362f;
+  --color: #7c998f;
+}
+
 .template-default input,
 .template-default textarea,
 .template-default select,
 .template-minimal input,
 .template-minimal textarea,
 .template-minimal select {
+  background: var(--theme-input-bg);
+  border-color: var(--theme-border-color);
   color: var(--theme-text);
 }
 
