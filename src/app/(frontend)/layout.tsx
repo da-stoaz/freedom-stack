@@ -8,6 +8,9 @@ import { getBrandSettings } from '@/lib/content'
 
 import './styles.css'
 
+import { Analytics } from "@vercel/analytics/next"
+
+
 export const dynamic = 'force-dynamic'
 
 const getGoogleFontsHref = (headingFont: string, bodyFont: string) => {
@@ -69,6 +72,7 @@ export default async function FrontendLayout(props: { children: React.ReactNode 
           <main>{children}</main>
           <Footer brand={brand} />
         </div>
+        <Analytics />
       </body>
     </html>
   )
