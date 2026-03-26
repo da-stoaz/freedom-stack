@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,11 +14,12 @@
     "lint": "eslint .",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
-    "payload": "payload",
-    "generate:types": "payload generate:types",
-    "generate:importmap": "payload generate:importmap",
+    "payload": "pnpm exec payload",
+    "generate:types": "pnpm exec payload generate:types",
+    "generate:importmap": "pnpm exec payload generate:importmap",
+    "payload:sync": "pnpm exec payload generate:importmap && pnpm exec payload generate:types",
     "seed": "docker compose up -d postgres && tsx src/scripts/seed.ts",
-    "postinstall": "payload generate:importmap && payload generate:types"
+    "postinstall": "echo 'Skipping Payload codegen during install; run pnpm payload:sync when schema/admin components change.'"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.72.0",

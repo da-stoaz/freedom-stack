@@ -50,8 +50,7 @@ pnpm setup
 6. Generate Payload artifacts if needed
 
 ```bash
-pnpm generate:importmap
-pnpm generate:types
+pnpm payload:sync
 ```
 
 7. Start the app
@@ -66,3 +65,4 @@ pnpm dev
 - The booking flow uses direct PostgreSQL transactions for correctness under concurrent booking attempts.
 - `PAYLOAD_SECRET` falls back to a local development value so builds work in a fresh environment, but production must override it.
 - `pnpm setup` starts PostgreSQL on `127.0.0.1:5552` and runs the seed script that creates the first admin plus baseline services, testimonials, brand settings, and time slots.
+- Payload import map and types are committed to the repo. `pnpm install` does not regenerate them automatically; use `pnpm payload:sync` after changing Payload schema or admin component imports.
