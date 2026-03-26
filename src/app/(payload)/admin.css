@@ -97,7 +97,8 @@ body {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  margin-bottom: 1.25rem;
+  width: auto;
+  margin: 0 var(--gutter-h) 1.25rem;
   padding: 1rem 1.125rem;
   border: 1px solid var(--theme-border-color);
   border-radius: 1rem;
@@ -149,7 +150,34 @@ body {
   color: var(--theme-elevation-550);
 }
 
+.booking-patient-cell {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.booking-patient-cell__name {
+  font-weight: 700;
+  color: var(--theme-success-700);
+  text-decoration: none;
+}
+
+.booking-patient-cell__name:hover {
+  text-decoration: underline;
+}
+
+.booking-patient-cell__meta {
+  font-size: 0.8125rem;
+  color: var(--theme-elevation-550);
+  text-decoration: none;
+}
+
 .booking-status-cell {
+  display: grid;
+  gap: 0.45rem;
+  align-items: flex-start;
+}
+
+.booking-status-cell__header {
   display: inline-flex;
   flex-direction: column;
   gap: 0.2rem;
@@ -160,6 +188,70 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   color: #9a6700;
+}
+
+.booking-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.booking-status-actions__button,
+.booking-status-actions__link {
+  display: inline-flex;
+  min-height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.booking-status-actions__button {
+  border: 0;
+  cursor: pointer;
+}
+
+.booking-status-actions__button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.booking-status-actions__button--confirm {
+  color: #ffffff;
+  background: var(--theme-success-500);
+}
+
+.booking-status-actions__button--confirm:hover:not(:disabled) {
+  background: var(--theme-success-600);
+}
+
+.booking-status-actions__button--cancel {
+  color: #8b1e3f;
+  background: rgba(190, 24, 93, 0.12);
+}
+
+.booking-status-actions__button--cancel:hover:not(:disabled) {
+  background: rgba(190, 24, 93, 0.2);
+}
+
+.booking-status-actions__link {
+  color: var(--theme-elevation-700);
+  background: var(--theme-elevation-100);
+}
+
+.booking-status-actions__link:hover {
+  background: var(--theme-elevation-150);
+}
+
+.booking-status-actions__error {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8b1e3f;
 }
 
 .booking-status-pill {

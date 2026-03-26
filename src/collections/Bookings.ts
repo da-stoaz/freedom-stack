@@ -12,9 +12,8 @@ export const Bookings: CollectionConfig = {
   admin: {
     group: 'Clinic',
     useAsTitle: 'patient_name',
-    description:
-      'New bookings start as Needs confirmation. Open a booking and change the booking status to Confirmed or Cancelled once handled.',
-    defaultColumns: ['status', 'patient_name', 'patient_email', 'service_id', 'time_slot_id', 'created_at'],
+    description: 'Review incoming requests, confirm or cancel them from the list, or open the full booking details.',
+    defaultColumns: ['patient_name', 'status', 'patient_email', 'service_id', 'time_slot_id', 'created_at'],
     components: {
       beforeList: ['@/components/admin/BookingQueueNotice#BookingQueueNotice'],
     },
@@ -52,6 +51,11 @@ export const Bookings: CollectionConfig = {
       name: 'patient_name',
       type: 'text',
       required: true,
+      admin: {
+        components: {
+          Cell: '@/components/admin/BookingPatientCell#BookingPatientCell',
+        },
+      },
     },
     {
       name: 'patient_email',
@@ -80,7 +84,7 @@ export const Bookings: CollectionConfig = {
         description:
           'Every new booking starts as Needs confirmation. Switch this to Confirmed or Cancelled after reviewing it.',
         components: {
-          Cell: '@/components/admin/BookingStatusCell#BookingStatusCell',
+          Cell: '@/components/admin/BookingQuickActionsCell#BookingQuickActionsCell',
         },
       },
       options: [
